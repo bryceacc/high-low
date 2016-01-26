@@ -1,0 +1,15 @@
+{
+  "name": "high-low",
+  "version": "1.0.0",
+  "description": "game of high low",
+  "main": "high_low.js",
+  "dependencies": {
+    "readline-sync": "^1.2.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
