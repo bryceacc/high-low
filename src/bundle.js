@@ -19038,40 +19038,73 @@ var Card = React.createClass({displayName: "Card",
   render: function() {
     return (
     	React.createElement(
-		  'div',
-		  null,
-		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.props.suit + 's.svg' })
-		)
+  		  'div',
+  		  null,
+  		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.props.suit + 's.svg' })
+  		)
     );
   }
 });
 
-/*var ClockFace = React.createClass({displayName: "ClockFace",
+module.exports = Card;
+//React.render(React.createElement(Card, { val: 4, suit: 'spade' }), document.body);
+
+},{"React":156}],159:[function(require,module,exports){
+var React = require('React');
+
+var Card = require('./card.js');
+var Lobby = require('./lobby.js');
+
+var Ingame = React.createClass({displayName: "Ingame",
   getInitialState: function() {
-    return { };
+    return { players: 0 };
   },
-
+  componentDidMount: function() {
+    
+  },
   render: function() {
-    var d = this.props.date;
-    var millis = d.getMilliseconds();
-    var second = d.getSeconds() * 6 + millis * (6 / 1000);
-    var minute = d.getMinutes() * 6 + second / 60;
-    var hour = (((d.getUTCHours() + this.state.e) % 12) / 12) * 360 + 90 + minute / 12;
+  	//enough players to start game
+  	if (this.state.players === 0) {
+	    return (
+	    	React.createElement(
+			  "div",
+			  null,
+			  React.createElement(Card, { val: 4, suit: 'spade' }),
+			  React.createElement(Card, { val: 12, suit: 'heart' })
+			)
+	    );
+	}
+	//show lobby
+	else {
+		return (
+	    	React.createElement('div', null,
+	  		  React.createElement(Lobby, null)
+	  		)
+	    );
+	}
+  }
+});
 
+React.render(React.createElement(Ingame, null), document.body);
+exports = Ingame;
+
+},{"./card.js":158,"./lobby.js":160,"React":156}],160:[function(require,module,exports){
+var React = require('React');
+
+var Lobby = React.createClass({displayName: "Lobby",
+  getInitialState: function() {
+    return {  };
+  },
+  componentDidMount: function() {
+    
+  },
+  render: function() {
     return (
-      React.createElement("div", null, 
-        React.createElement("div", {className: "circle"}, 
-          React.createElement("div", {className: "face"}, 
-            React.createElement("div", {className: "second", style: transform(rotate(second))}), 
-            React.createElement("div", {className: "hour", style: transform(rotate(hour))}), 
-            React.createElement("div", {className: "minute", style: transform(rotate(minute))})
-          )
-        )
-      )
+    	React.createElement('div', null)
     );
   }
-});*/
+});
 
-React.render(React.createElement(Card, { val: 4, suit: 'spade' }), document.body);
+module.exports = Lobby;
 
-},{"React":156}]},{},[158]);
+},{"React":156}]},{},[159]);

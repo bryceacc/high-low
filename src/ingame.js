@@ -1,22 +1,37 @@
 var React = require('React');
 
-var Card = React.createClass({displayName: "Card",
+var Card = require('./card.js');
+var Lobby = require('./lobby.js');
+
+var Ingame = React.createClass({displayName: "Ingame",
   getInitialState: function() {
-    return {  };
+    return { players: 0 };
   },
   componentDidMount: function() {
     
   },
   render: function() {
-    return (
-    	React.createElement(
-		  'div',
-		  null,
-		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.props.suit + 's.svg' })
-		)
-    );
+  	//enough players to start game
+  	if (this.state.players === 4) {
+	    return (
+	    	React.createElement(
+			  "div",
+			  null,
+			  React.createElement(Card, { val: 4, suit: 'spade' }),
+			  React.createElement(Card, { val: 12, suit: 'heart' })
+			)
+	    );
+	}
+	//show lobby
+	else {
+		return (
+	    	React.createElement('div', null,
+	  		  React.createElement(Lobby, null)
+	  		)
+	    );
+	}
   }
 });
 
-exports = Card;
-//React.render(React.createElement(Card, { val: 4, suit: 'spade' }), document.body);
+React.render(React.createElement(Ingame, null), document.body);
+exports = Ingame;

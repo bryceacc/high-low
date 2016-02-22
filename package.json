@@ -4,7 +4,9 @@
   "description": "game of high low",
   "main": "high_low.js",
   "dependencies": {
-    "readline-sync": "^1.2.22"
+    "express": "^4.13.4",
+    "readline-sync": "^1.2.22",
+    "socket.io": "^1.4.5"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
