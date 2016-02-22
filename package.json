@@ -6,8 +6,19 @@
   "dependencies": {
     "readline-sync": "^1.2.22"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "react": "^0.14.7",
+    "reactify": "^1.1.1",
+    "uglify": "^0.1.5"
+  },
   "scripts": {
+    "build": "browserify -t reactify src/ingame.js -o src/bundle.js",
+    "//update": "xcopy shit",
+    "//clean": "mkdir dist && cd dist && mkdir js && mkdir css && cd ..",
+    "//prebuild": "npm run update",
+    "//postbuild": "uglifyjs dist/js/bundle.js -o src/js/bundle.min.js",
+    "//preclean": "rmdir /S /q dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
