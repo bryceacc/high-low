@@ -1,4 +1,5 @@
 var React = require('React');
+var socket = require('socket.io-client');
 
 var Card = require('./card.js');
 var Lobby = require('./lobby.js');
