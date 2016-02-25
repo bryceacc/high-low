@@ -1,4 +1,6 @@
 var React = require('React');
+var io = require('socket.io-client');
+var socket = io();
 
 var Lobby = React.createClass({displayName: "Lobby",
 
@@ -25,8 +27,16 @@ var Lobby = React.createClass({displayName: "Lobby",
   getInitialState: function() {
     return {  };
   },
+
   componentDidMount: function() {
-    
+    socket.connect('http://highlow.nubsrevenge.seedr.io')
+    socket.on('connect', function() {
+      socket.emit('message', {message: 'hello'});
+      console.log("yay");
+    });
+    socket.on('message', function(msg) {
+      console.log('svr says: ' + msg.message);
+    });
   },
 
   render: function() {
