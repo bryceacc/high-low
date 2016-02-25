@@ -3,27 +3,6 @@ var io = require('socket.io-client');
 var socket = io();
 
 var Lobby = React.createClass({displayName: "Lobby",
-
-  styles: {
-    header1: {
-      fontFamily: 'Calibri',
-      fontSize: '84',
-      color: 'white'
-    },
-
-    header2: {
-      fontFamily: 'Calibri',
-      fontSize: '40',
-      color: 'white'
-    },
-
-    table: {
-      fontFamily: 'Calibri',
-      fontSize: '30',
-      color: 'white'
-    }
-  },
-
   getInitialState: function() {
     return {  };
   },
@@ -32,35 +11,39 @@ var Lobby = React.createClass({displayName: "Lobby",
     socket.connect('http://highlow.nubsrevenge.seedr.io')
     socket.on('connect', function() {
       socket.emit('message', {message: 'hello'});
-      console.log("yay");
+      console.log("connected to server and sent test message 'hello'");
     });
     socket.on('message', function(msg) {
-      console.log('svr says: ' + msg.message);
+      console.log('server returned: ' + msg.message);
     });
   },
 
   render: function() {
     return <div>
-        <h1 style={this.styles.header1}>High-Low</h1>
+      <div className="column-left">
+          <img src='../resources/cardStack.png' style={{maxHeight: '400px', paddingTop: '100px'}}></img>
+      </div>
 
-        <h3 style={this.styles.header2}>Lobby</h3>
-        <table style={this.styles.table} border="1">
-          <tbody>
-            <tr>
-              <td>Bryce</td>
-            </tr>
-            <tr>
-              <td>Cameron</td>
-            </tr>
-            <tr>
-              <td>Jordan</td>
-            </tr>
-            <tr>
-              <td>Sonia</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>;
+      <div className="column-center">
+          <img src='../resources/lobbyMiddle.png' style={{maxHeight: '600px'}}></img>
+      </div>
+
+      <div className="column-right">
+          <table width="200" height="400">
+            <tbody>
+              <th>Lobby:</th>
+              <tr><td>Cameron</td></tr>
+              <tr><td>Bryce</td></tr>
+              <tr><td>Jordan</td></tr>
+              <tr><td>Sonia</td></tr>
+            </tbody>
+          </table>
+      </div>
+
+      <div>
+          <button>Play!</button>
+      </div>
+    </div>;
   }
 });
 
