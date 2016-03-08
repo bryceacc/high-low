@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var config = { port: 3030 };
 
 var playerList = [];
+var clientList = [];
 
 app.get('/', function(req, res){
 	app.use(express.static(__dirname));
@@ -13,6 +14,7 @@ app.get('/', function(req, res){
 
 io.sockets.on('connection', function(socket){
 	console.log("got one");
+	clientList.push(socket);
 	socket.emit('message', {message: 'you are connected'});
 
 	//TESTING just say what message you got, for testing connectivity
@@ -47,6 +49,14 @@ io.sockets.on('connection', function(socket){
 			console.log('cant play yet');
 			socket.emit('play?', {message: null});
 		}
+	});
+
+	//player disconnected, remove from name & client list
+	socket.on('disconnect', function(msg) {
+		var i = clientList.indexOf(socket);
+		console.log(playerList[i] + ' disconnected');
+    	clientList.splice(i, 1);
+    	playerList.splice(i, 1);
 	});
 });
 

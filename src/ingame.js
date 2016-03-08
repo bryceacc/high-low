@@ -5,9 +5,9 @@ var socket = io();
 var Card = require('./card.js');
 var Lobby = require('./lobby.js');
 
-var Ingame = React.createClass({displayName: "Ingame",
+var Game = React.createClass({displayName: "Game",
 	getInitialState: function() {
-		return { name: null, ingame: false };
+		return { username: null, ingame: false };
 	},
 
 	componentDidMount: function() {
@@ -28,13 +28,13 @@ var Ingame = React.createClass({displayName: "Ingame",
 			//server returns null if name is invalid
 			if (msg.message !== null) {
 				console.log('server said good name');
-				this.setState({name: msg.message});
+				this.setState({username: msg.message});
 			}
 			else {
 				console.log('server said bad name');
 				//notify somehow
 			}
-		}).bind(this);
+		}.bind(this));
 		//server response when asking to start game
 		socket.on('play?', function(msg) {
 			if (msg.message !== null)
@@ -67,10 +67,10 @@ var Ingame = React.createClass({displayName: "Ingame",
 			);
 		}
 		//show lobby
-		else if (this.state.name !== null) {
+		else if (this.state.username !== null) {
 			return (
 				React.createElement('div', null,
-				  React.createElement(Lobby, {play: this.playPressed, sock: socket})
+				  React.createElement(Lobby, {play: this.playPressed, name: this.state.username, sock: socket})
 				)
 			);
 		}
@@ -88,5 +88,5 @@ var Ingame = React.createClass({displayName: "Ingame",
 	}
 });
 
-React.render(React.createElement(Ingame, null), document.getElementById('container'));
-exports = Ingame;
+React.render(React.createElement(Game, null), document.getElementById('container'));
+module.exports = Game;
