@@ -4,13 +4,13 @@ var socket = io();
 
 var Lobby = React.createClass({displayName: "Lobby",
 	getInitialState: function() {
-		return { players: null };
+		return { players: [] };
 	},
 
 	componentDidMount: function() {
 		//new players, handling joining a lobby or others joining current lobby
 		this.props.sock.on('new players', function(msg) {
-			this.setState(players: msg);
+			this.setState({players: msg.message});
 		}.bind(this));
 
 		//server response when asking to start game
@@ -25,7 +25,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 	render: function() {
 		var names = [];
 		for (var i = 0; i < this.state.players.length; i++) {
-			names.push(<tr><td>{this.state.players[i]}</td><tr>);
+			names.push(<tr key={i}><td key={i}>{this.state.players[i]}</td></tr>);
 		}
 
 		return <div>
@@ -40,7 +40,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 		  <div className="column-right">
 			  <table width="200" height="400">
 				<tbody>
-				  <th>Lobby:</th>
+				  
 				  {names}
 				</tbody>
 			  </table>

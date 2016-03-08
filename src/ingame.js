@@ -38,7 +38,7 @@ var Game = React.createClass({displayName: "Game",
 
 		socket.on('game start', function(msg) {
 			console.log('starting config: ' + msg.list);
-			this.setState(playerInfo: msg.list);
+			this.setState({playerInfo: msg.list});
 		}.bind(this));
 	},
 
