@@ -42,12 +42,28 @@ var Game = React.createClass({displayName: "Game",
 		}.bind(this));
 	},
 
-	gameStart: function() {
+	gameStart: function(players, flag) {
 		//lobby says game is starting
-		this.setState({ingame: true});
-		//DEBUG
-		console.log('going in game');
-		//generate player info
+		//-----------generate player info-------------
+		var info = [];
+		//FLAG true means generate a new game, this person pressed play
+		//FLAG false means this player is receiving a game setup
+		if (flag) {
+			var cards = [];
+			//generate cards for all the players
+			for (var x = 0; x < 4; x++) {
+				var temp = Math.floor(Math.random() * 13 + 1);
+				//dont allow multiples of same cards
+				while(cards.indexOf(temp) != -1)
+					temp = Math.floor(Math.random() * 13 + 1);
+	
+				info.push({name: players[x], val: temp, suit: Math.floor(Math.random() * 4 + 1)});
+			}
+			socket.emit('game generated', {message: info});
+		}
+		else
+			info = players;
+		this.setState({ingame: true, playerInfo: info});
 	},
 
 	buttonClick: function() {
@@ -63,6 +79,7 @@ var Game = React.createClass({displayName: "Game",
 	render: function() {
 		//enough players to start game
 		if (this.state.ingame) {
+			//dynamically generate based on number of players, mask your card
 			return (
 				React.createElement(
 				  "div",
@@ -78,7 +95,7 @@ var Game = React.createClass({displayName: "Game",
 		else if (this.state.username !== null) {
 			return (
 				React.createElement('div', null,
-				  React.createElement(Lobby, {play: this.playPressed, name: this.state.username, sock: socket})
+				  React.createElement(Lobby, {play: this.gameStart, name: this.state.username, sock: socket})
 				)
 			);
 		}

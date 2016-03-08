@@ -2,7 +2,19 @@ var React = require('React');
 
 var Card = React.createClass({displayName: "Card",
   getInitialState: function() {
-    return {  };
+    var soot = '';
+    switch(this.props.suit) {
+      case 1: soot = 'club';
+      break;
+      case 2: soot = 'diamond';
+      break;
+      case 3: soot = 'heart';
+      break;
+      case 4: soot = 'spade';
+      break;
+      default: console.log('error with cards suit ' + this.props.suit);
+    }
+    return { suit: soot };
   },
   componentDidMount: function() {
     
@@ -12,7 +24,7 @@ var Card = React.createClass({displayName: "Card",
     	React.createElement(
   		  'div',
   		  null,
-  		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.props.suit + 's.svg' })
+  		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.state.suit + 's.svg' })
   		)
     );
   }

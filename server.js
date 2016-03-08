@@ -57,6 +57,7 @@ io.on('connection', function(socket){
 			if (playerList.length === 4) {
 				//DEBUG
 				console.log('time to play');
+				//send the person that clicked play the ability to generate the game
 				socket.emit('play?', {message: true});
 			}
 			else {
@@ -64,6 +65,12 @@ io.on('connection', function(socket){
 				console.log('cant play yet');
 				socket.emit('play?', {message: null});
 			}
+		});
+
+		socket.on('game generated', function(msg) {
+			//DEBUG
+			console.log('player started game');
+			socket.broadcast.emit('play?', {message: false, list: msg.message});
 		});
 
 		//player disconnected, remove from name & client list
