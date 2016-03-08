@@ -42,13 +42,22 @@ var Game = React.createClass({displayName: "Game",
 		}.bind(this));
 	},
 
-	playPressed: function() {
-		//contact server and ask
-		socket.emit('play?', {message: null});
+	gameStart: function() {
+		//lobby says game is starting
+		this.setState({ingame: true});
+		//DEBUG
+		console.log('going in game');
+		//generate player info
 	},
 
 	buttonClick: function() {
 		socket.emit('player name', {message: document.getElementById('nametag').value});
+	},
+
+	handleSubmit: function(e) {
+		e.preventDefault();
+		console.log('enter');
+		this.buttonClick();
 	},
 
 	render: function() {
@@ -77,11 +86,11 @@ var Game = React.createClass({displayName: "Game",
 		else {
 			return (
 				<div>
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						Choose username:
 						<input type="text" id='nametag'></input>
 					</form>
-					<button onClick={this.buttonClick}>Go!</button>
+					<button id='nameButton' onClick={this.buttonClick}>Go!</button>
 				</div>
 			);
 		}

@@ -15,11 +15,16 @@ var Lobby = React.createClass({displayName: "Lobby",
 
 		//server response when asking to start game
 		this.props.sock.on('play?', function(msg) {
-			if (msg.message !== null)
-				this.setState({ingame: true});
+			if (msg.message !== null && msg.message === true)
+				this.props.startGame();
 			else
 				alert('need 4 players to start');
 		});
+	},
+
+	playPressed: function() {
+		//contact server and ask
+		this.props.sock.emit('play?', {message: null});
 	},
 
 	render: function() {
@@ -47,7 +52,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 		  </div>
 
 		  <div>
-			  <button onClick={this.props.play}>Play!</button>
+			  <button onClick={this.playPressed}>Play!</button>
 		  </div>
 		</div>;
 	}
