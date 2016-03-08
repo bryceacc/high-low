@@ -7,7 +7,7 @@ var Lobby = require('./lobby.js');
 
 var Game = React.createClass({displayName: "Game",
 	getInitialState: function() {
-		return { username: null, ingame: false};
+		return { username: null, ingame: false, playerInfo: []};
 	},
 
 	componentDidMount: function() {
@@ -35,6 +35,11 @@ var Game = React.createClass({displayName: "Game",
 				//notify somehow
 			}
 		}.bind(this));
+
+		socket.on('game start', function(msg) {
+			console.log('starting config: ' + msg.list);
+			this.setState(playerInfo: msg.list);
+		}.bind(this));
 	},
 
 	playPressed: function() {
@@ -53,8 +58,10 @@ var Game = React.createClass({displayName: "Game",
 				React.createElement(
 				  "div",
 				  null,
-				  React.createElement(Card, { val: 4, suit: 'spade' }),
-				  React.createElement(Card, { val: 12, suit: 'heart' })
+				  React.createElement(Card, { val: this.state.playerInfo[0].val, suit: this.state.playerInfo[0].suit }),
+				  React.createElement(Card, { val: this.state.playerInfo[1].val, suit: this.state.playerInfo[1].suit }),
+				  React.createElement(Card, { val: this.state.playerInfo[2].val, suit: this.state.playerInfo[2].suit }),
+				  React.createElement(Card, { val: this.state.playerInfo[3].val, suit: this.state.playerInfo[3].suit })
 				)
 			);
 		}
