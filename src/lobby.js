@@ -8,10 +8,26 @@ var Lobby = React.createClass({displayName: "Lobby",
 	},
 
 	componentDidMount: function() {
-		this.props.sock.emit('message', {message: 'lobby emit'});
+		//new players, handling joining a lobby or others joining current lobby
+		this.props.sock.on('new players', function(msg) {
+			this.setState(players: msg);
+		}.bind(this));
+
+		//server response when asking to start game
+		this.props.sock.on('play?', function(msg) {
+			if (msg.message !== null)
+				this.setState({ingame: true});
+			else
+				alert('need 4 players to start');
+		});
 	},
 
 	render: function() {
+		var names = [];
+		for (var i = 0; i < this.state.players.length; i++) {
+			names.push(<tr><td>{this.state.players[i]}</td><tr>);
+		}
+
 		return <div>
 		  <div className="column-left">
 			  <img src='../resources/cardStack.png' style={{maxHeight: '400px', paddingTop: '100px'}}></img>
@@ -25,10 +41,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 			  <table width="200" height="400">
 				<tbody>
 				  <th>Lobby:</th>
-				  <tr><td>Cameron</td></tr>
-				  <tr><td>Bryce</td></tr>
-				  <tr><td>Jordan</td></tr>
-				  <tr><td>Sonia</td></tr>
+				  {names}
 				</tbody>
 			  </table>
 		  </div>

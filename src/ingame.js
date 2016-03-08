@@ -7,7 +7,7 @@ var Lobby = require('./lobby.js');
 
 var Game = React.createClass({displayName: "Game",
 	getInitialState: function() {
-		return { username: null, ingame: false };
+		return { username: null, ingame: false};
 	},
 
 	componentDidMount: function() {
@@ -35,13 +35,6 @@ var Game = React.createClass({displayName: "Game",
 				//notify somehow
 			}
 		}.bind(this));
-		//server response when asking to start game
-		socket.on('play?', function(msg) {
-			if (msg.message !== null)
-				this.setState({ingame: true});
-			else
-				alert('need 4 players to start');
-		});
 	},
 
 	playPressed: function() {
@@ -50,7 +43,6 @@ var Game = React.createClass({displayName: "Game",
 	},
 
 	buttonClick: function() {
-		console.log('set name');
 		socket.emit('player name', {message: document.getElementById('nametag').value});
 	},
 
@@ -74,6 +66,7 @@ var Game = React.createClass({displayName: "Game",
 				)
 			);
 		}
+		//very beginning, choose a username
 		else {
 			return (
 				<div>
