@@ -1,6 +1,4 @@
 var React = require('React');
-var io = require('socket.io-client');
-var socket = io();
 
 var Lobby = React.createClass({displayName: "Lobby",
 	getInitialState: function() {
@@ -49,8 +47,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 		  <div className="column-right">
 			  <table width="200" height="400">
 				<tbody>
-				  
-				  {names}
+					{names}
 				</tbody>
 			  </table>
 		  </div>

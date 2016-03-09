@@ -18,7 +18,7 @@
 		"uglify": "^0.1.5"
 	},
 	"scripts": {
-		"build": "browserify -t reactify lib/ingame.js -o lib/bundle.js",
+		"build": "browserify -t reactify lib/game.js -o lib/bundle.js",
 		"//update": "xcopy shit",
 		"//clean": "mkdir dist && cd dist && mkdir js && mkdir css && cd ..",
 		"prebuild": "babel src -d lib",
