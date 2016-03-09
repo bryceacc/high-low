@@ -14,7 +14,10 @@ var InGame = React.createClass({displayName: "InGame",
 	render: function() {
 		var cards = [];
 		for (var i = 0; i < this.props.pInfo.length; i++) {
-			cards.push(<Card val={this.props.pInfo[i].val} suit={this.props.pInfo[i].suit} key={i}></Card>);
+			if (this.props.pInfo[i].name === this.props.uName)
+				cards.push(<Card val={this.props.pInfo[i].val} suit={5} key={i}></Card>);
+			else
+				cards.push(<Card val={this.props.pInfo[i].val} suit={this.props.pInfo[i].suit} key={i}></Card>);
 		}
 
 		return (

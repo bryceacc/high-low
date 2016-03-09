@@ -12,7 +12,7 @@ var Card = React.createClass({displayName: "Card",
       break;
       case 4: soot = 'spade';
       break;
-      default: console.log('error with cards suit ' + this.props.suit);
+      default: soot = 'fancyBack';//console.log('error with cards suit ' + this.props.suit);
     }
     return { suit: soot };
   },
@@ -20,11 +20,15 @@ var Card = React.createClass({displayName: "Card",
     
   },
   render: function() {
+    var cardString = '../resources/SVG-cards/' + this.props.val + '_of_' + this.state.suit + 's.svg';
+    if (this.state.suit === 'fancyBack')
+      cardString = '../resources/fancyBack.png';
+
     return (
     	React.createElement(
   		  'div',
   		  null,
-  		  React.createElement('img', { src: '../resources/SVG-cards/' + this.props.val + '_of_' + this.state.suit + 's.svg' })
+  		  React.createElement('img', { src: cardString })
   		)
     );
   }

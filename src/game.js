@@ -83,7 +83,7 @@ var Game = React.createClass({displayName: "Game",
 			//dynamically generate based on number of players, mask your card
 			return (
 				<div>
-					<InGame pInfo={this.state.playerInfo} name={this.state.username}></InGame>
+					<InGame pInfo={this.state.playerInfo} uName={this.state.username}></InGame>
 				</div>
 			);
 		}
