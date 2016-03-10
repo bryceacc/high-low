@@ -20,7 +20,7 @@ var Lobby = React.createClass({displayName: "Lobby",
 				this.props.play(msg.list, false);
 			}
 			else
-				alert('need 4 players to start');
+				alert('need at least 4 players to start');
 		}.bind(this));
 	},
 
@@ -36,25 +36,25 @@ var Lobby = React.createClass({displayName: "Lobby",
 		}
 
 		return <div>
-		  <div className="column-left">
-			  <img src='../resources/cardStack.png' style={{maxHeight: '400px', paddingTop: '100px'}}></img>
-		  </div>
+			<div className="column-left">
+				<img src='../resources/cardStack.png' style={{maxHeight: '400px', paddingTop: '100px'}}></img>
+			</div>
 
-		  <div className="column-center">
-			  <img src='../resources/lobbyMiddle.png' style={{maxHeight: '600px'}}></img>
-		  </div>
+			<div className="column-center">
+				<img src='../resources/lobbyMiddle.png' style={{maxHeight: '600px'}}></img>
+			</div>
 
-		  <div className="column-right">
-			  <table width="200" height="400">
-				<tbody>
-					{names}
-				</tbody>
-			  </table>
-		  </div>
+			<div className="column-right">
+				<table width="200" height="400">
+					<tbody>
+						{names}
+					</tbody>
+				</table>
+			</div>
 
-		  <div>
-			  <button onClick={this.playPressed}>Play!</button>
-		  </div>
+			<div>
+				<button onClick={this.playPressed}>Play!</button>
+			</div>
 		</div>;
 	}
 });

@@ -51,7 +51,7 @@ io.on('connection', function(socket){
 	socket.on('play?', function(msg) {
 		//DEBUG
 		console.log('player asking to start game');
-		if (playerList.length === 4) {
+		if (playerList.length >= 4) {
 			//DEBUG
 			console.log('time to play');
 			//send the person that clicked play the ability to generate the game
@@ -70,15 +70,21 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('play?', {message: false, list: msg.message});
 	});
 
+	socket.on('game updated', function(msg) {
+		//DEBUG
+		console.log('player made a move');
+		socket.broadcast.emit('game update', {list: msg.message});
+	});
+
 	//player disconnected, remove from name & client list
 	socket.on('disconnect', function(msg) {
 		var i = clientList.indexOf(socket.id);
 		if (i === -1)
 			console.log("ERROR couldnt find client to disconnect")
 		console.log(playerList[i] + ' disconnected');
-    	clientList.splice(i, 1);
-    	playerList.splice(i, 1);
-    	//send everyone else in the lobby the new player list
+		clientList.splice(i, 1);
+		playerList.splice(i, 1);
+		//send everyone else in the lobby the new player list
 		socket.broadcast.emit('new players', {message: playerList});
 		console.log('socket list now: ' + clientList.toString());
 	});

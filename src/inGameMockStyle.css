@@ -1,0 +1,49 @@
+.column-left {
+    float: left; width: 33%;
+}
+
+.column-center {
+    padding-top: 10%;
+    margin: 0 auto;
+}
+
+.column-right {
+    float: right; width: 33%;
+    padding-top: 0%;
+}
+
+#outer {
+    width:100%;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+
+    padding-top: 5%;
+}
+
+th {
+    font-size: 40px;
+}
+
+table, tr {
+    text-align: left;
+    font-size: 30px;
+}
+
+body {
+    color:white;
+    background-image: url('resources/bkgd.png');
+    background-size: contain;
+}
