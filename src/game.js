@@ -37,11 +37,11 @@ var Game = React.createClass({displayName: "Game",
 				//notify somehow
 			}
 		}.bind(this));
-
+/*
 		socket.on('game start', function(msg) {
 			console.log('starting config: ' + msg.list);
 			this.setState({playerInfo: msg.list});
-		}.bind(this));
+		}.bind(this));*/
 	},
 
 	gameStart: function(players, flag) {
@@ -88,7 +88,7 @@ var Game = React.createClass({displayName: "Game",
 			//dynamically generate based on number of players, mask your card
 			return (
 				<div>
-					<InGame pObj={this.state.playerInfo} uName={this.state.username} sock={socket}></InGame>
+					<InGame pObj={this.state.playerInfo} uName={this.state.username} restart={this.gameStart} sock={socket}></InGame>
 				</div>
 			);
 		}

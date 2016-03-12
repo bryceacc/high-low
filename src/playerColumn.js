@@ -5,14 +5,11 @@ var Card = require('./card.js');
 var PlayerColumn = React.createClass({displayName: "PlayerColumn",
 
 	getInitialState: function() {
-		return { myTurn: this.props.turn };
+		return {  };
 	},
 
 	componentDidMount: function() {
-		this.props.socket.on('turn', function(msg) {
-			alert('your turn');
-			this.setState({myTurn: null});
-		}.bind(this));
+
 	},
 
 	buttonClick: function() {
@@ -40,12 +37,15 @@ var PlayerColumn = React.createClass({displayName: "PlayerColumn",
 					gameState.pInfo[i].rankGuess2 = rank;
 					gameState.pInfo[i].valGuess = val;
 				}
+				if (gameState.pInfo[i+1])
+					gameState.turn = gameState.pInfo[i+1].uName;
+				else {
+					gameState.turn = gameState.pInfo[0].uName;
+					gameState.round++;
+				}
 			}
 		}
 
-		//loop through and see if round needs to increment since everyone has a rankGuess1
-		
-		this.setState({myTurn: "disabled"});
 		this.props.socket.emit('game updated', {list: gameState});
 	},
 
@@ -65,7 +65,7 @@ var PlayerColumn = React.createClass({displayName: "PlayerColumn",
 		else
 			soot = 5;
 		tags.push(<Card val={this.props.pInfo.val} suit={soot} key={key}></Card>);
-		if (this.props.pInfo.rankGuess1)
+		if (this.props.pInfo.rankGuess1)//TODO somehow get new lines...or just do one string, also include end game string
 			tags.push("First rank guess: " + this.props.pInfo.rankGuess1);
 		if (this.props.pInfo.rankGuess2)
 			tags.push("Second rank guess: " + this.props.pInfo.rankGuess2);
@@ -73,38 +73,24 @@ var PlayerColumn = React.createClass({displayName: "PlayerColumn",
 			tags.push("Value guess: " + this.props.pInfo.valGuess);
 
 		if (this.props.isPlayer) {
-			/*if (this.props.round === 3) //if the game is over, reveal the card
-				soot = this.props.pInfo.suit;
-			else
-				soot = 5;
-			tags.push(<Card val={this.props.pInfo.val} suit={soot} key={key}></Card>);
-			if (this.props.pInfo.rankGuess1)
-				tags.push("First rank guess: " + this.props.pInfo.rankGuess1);
-			if (this.props.pInfo.rankGuess2)
-				tags.push("Second rank guess: " + this.props.pInfo.rankGuess2);
-			if (this.props.pInfo.valGuess)
-				tags.push("Value guess: " + this.props.pInfo.valGuess);*/
-			tags.push(<form onSubmit={this.handleSubmit} key={key+1}>
-							Rank Guess
-							<input type="number" id='rankInput' key={key+2}></input>
-						</form>);
-			if (this.props.round === 2) //second round, activate the value guess
-				tags.push(<form onSubmit={this.handleSubmit} key={key+3}>
-								Value Guess
-								<input type="number" id='valInput' key={key+4}></input>
+			if (this.props.round === 1 || this.props.round === 2) {
+				tags.push(<form onSubmit={this.handleSubmit} key={key+1}>
+								Rank Guess
+								<input type="number" id='rankInput' key={key+2}></input>
 							</form>);
-			
-			tags.push(<button id='guessButton' onClick={this.buttonClick} key={key+5}>Guess!</button>);//add disabled attribute
+				if (this.props.round === 2) //second round, activate the value guess
+					tags.push(<form onSubmit={this.handleSubmit} key={key+3}>
+									Value Guess
+									<input type="number" id='valInput' key={key+4}></input>
+								</form>);
+				if (this.props.nfo.turn === this.props.pInfo.uName)
+					tags.push(<button id='guessButton' onClick={this.buttonClick} key={key+5}>Guess!</button>);
+				else
+					tags.push(<button id='guessButton' onClick={this.buttonClick} disabled key={key+5}>Guess!</button>);
+			}
+			else
+				tags.push(<button id='restartButton' onClick={this.props.restart} key={key+5}>Play Again</button>);
 		}
-		/*else {
-			tags.push(<Card val={this.props.pInfo.val} suit={this.props.pInfo.suit} key={key}></Card>);
-			if (this.props.pInfo.rankGuess1)
-				tags.push("First rank guess: " + this.props.pInfo.rankGuess1);
-			if (this.props.pInfo.rankGuess2)
-				tags.push("Second rank guess: " + this.props.pInfo.rankGuess2);
-			if (this.props.pInfo.valGuess)
-				tags.push("Value guess: " + this.props.pInfo.valGuess);
-		}*/
 
 		return (
 			<div>
