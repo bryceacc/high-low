@@ -41,3 +41,8 @@ th {
     width: 33%;
     padding-top: 7%;
 }
+
+#game {
+    display: flex;
+    justify-content: space-around;
+}

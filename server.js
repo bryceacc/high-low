@@ -73,7 +73,7 @@ io.on('connection', function(socket){
 	socket.on('game updated', function(msg) {
 		//DEBUG
 		console.log('player made a move');
-		socket.broadcast.emit('game update', {list: msg.message});
+		socket.broadcast.emit('game update', {list: msg.list});
 	});
 
 	//player disconnected, remove from name & client list

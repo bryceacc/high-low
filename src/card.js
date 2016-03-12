@@ -25,7 +25,7 @@ var Card = React.createClass({displayName: "Card",
 	render: function() {
 		var cardString = '../resources/SVG-cards/' + this.props.val + '_of_' + this.state.suit + 's.svg';
 		if (this.state.suit === 'fancyBack')
-			cardString = '../resources/fancyBack.png';
+			cardString = '../resources/fancyBack.svg';
 
 		return (
 			React.createElement(
@@ -38,4 +38,3 @@ var Card = React.createClass({displayName: "Card",
 });
 
 module.exports = Card;
-//React.render(React.createElement(Card, { val: 4, suit: 'spade' }), document.body);

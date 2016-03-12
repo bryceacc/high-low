@@ -15,10 +15,8 @@ var Lobby = React.createClass({displayName: "Lobby",
 		this.props.sock.on('play?', function(msg) {
 			if (msg.message !== null && msg.message === true)
 				this.props.play(this.state.players, true);
-			else if (msg.message !== null) {
-				//someone else pressed start, get list
+			else if (msg.message !== null)//someone else pressed start, get list
 				this.props.play(msg.list, false);
-			}
 			else
 				alert('need at least 4 players to start');
 		}.bind(this));

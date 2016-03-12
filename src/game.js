@@ -1,4 +1,5 @@
 var React = require('React');
+var ReactDOM = require('react-dom');
 var io = require('socket.io-client');
 var socket = io();
 
@@ -8,7 +9,7 @@ var InGame = require('./ingame.js');
 
 var Game = React.createClass({displayName: "Game",
 	getInitialState: function() {
-		return { username: null, ingame: false, playerInfo: []};
+		return { username: null, ingame: false, playerInfo: {}};
 	},
 
 	componentDidMount: function() {
@@ -47,12 +48,13 @@ var Game = React.createClass({displayName: "Game",
 		//lobby says game is starting
 		//-----------generate player info-------------
 		var info = [];
+		var obj = {};
 		//FLAG true means generate a new game, this person pressed play
 		//FLAG false means this player is receiving a game setup
 		if (flag) {
 			var cards = [];
 			//generate cards for all the players
-			for (var x = 0; x < 4; x++) {//TODO dynamic # players
+			for (var x = 0; x < 4; x++) {//TODO dynamic # players for some reason has doubles
 				var temp = Math.floor(Math.random() * 13 + 1);
 				//dont allow multiples of same cards
 				while(cards.indexOf(temp) != -1)
@@ -60,11 +62,14 @@ var Game = React.createClass({displayName: "Game",
 	
 				info.push({uName: players[x], val: temp, suit: Math.floor(Math.random() * 4 + 1)});
 			}
-			socket.emit('game generated', {message: info});
+			obj.pInfo = info;
+			obj.round = 1;
+			obj.turn = players[0];
+			socket.emit('game generated', {message: obj});
 		}
 		else
-			info = players;
-		this.setState({ingame: true, playerInfo: info});
+			obj = players;
+		this.setState({ingame: true, playerInfo: obj});
 	},
 
 	buttonClick: function() {
@@ -83,7 +88,7 @@ var Game = React.createClass({displayName: "Game",
 			//dynamically generate based on number of players, mask your card
 			return (
 				<div>
-					<InGame pInfo={this.state.playerInfo} uName={this.state.username} sock={socket}></InGame>
+					<InGame pObj={this.state.playerInfo} uName={this.state.username} sock={socket}></InGame>
 				</div>
 			);
 		}
@@ -110,5 +115,5 @@ var Game = React.createClass({displayName: "Game",
 	}
 });
 
-React.render(React.createElement(Game, null), document.getElementById('container'));
+ReactDOM.render(React.createElement(Game, null), document.getElementById('container'));
 module.exports = Game;

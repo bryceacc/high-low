@@ -1,46 +1,37 @@
 var React = require('React');
 
 var Card = require('./card.js');
+var PlayerColumn = require('./playerColumn.js');
 
 var InGame = React.createClass({displayName: "InGame",
+	styles: {
+		flex: {
+			display: "flex",
+			justifyContent: "space-around"
+		}
+	},
+
 	getInitialState: function() {
-		return { players: [] };
+		return { players: this.props.pObj.pInfo, gameState: this.props.pObj};
 	},
 
 	componentDidMount: function() {
 		this.props.sock.on('game update', function(msg) {
-			this.setState({players: msg.list});
+			console.log("player made a move");
+			console.log(msg.list);
+			this.setState({gameState: msg.list, players: msg.list.pInfo});
 		}.bind(this));
-	},
-
-	//disable pressing enter, so it doesnt refresh the damn page
-	handleSubmit: function(e) {
-		e.preventDefault();
-	},
-
-	buttonClick: function() {
-		//check values in both forms
-		//if they are valid, send to server and update state
 	},
 
 	render: function() {
 		var cards = [];
-		for (var i = 0; i < this.props.pInfo.length; i++) {//TODO KEY EVERYTHING and style it
-			cards.push(this.props.pInfo[i].uName);
-			if (this.props.pInfo[i].uName === this.props.uName) {
-				cards.push(<Card val={this.props.pInfo[i].val} suit={5} key={i}></Card>);
-				cards.push(<form onSubmit={this.handleSubmit}>Rank Guess<input type="number" id='rankInput'></input></form>);
-				if (this.props.pInfo.round === 2) 
-					cards.push(<form onSubmit={this.handleSubmit}>Value Guess<input type="number" id='rankInput'></input></form>);
-				cards.push(<button id='guessButton' onClick={this.buttonClick}>Go!</button>);
-			}
-			else {
-				cards.push(<Card val={this.props.pInfo[i].val} suit={this.props.pInfo[i].suit} key={i}></Card>);
-			}
+		for (var i = 0; i < this.state.players.length; i++) {
+			cards.push(<PlayerColumn pInfo={this.state.players[i]} isPlayer={this.state.players[i].uName === this.props.uName} nfo={this.state.gameState}
+				round={this.state.gameState.round} players={this.state.players.length} socket={this.props.sock} myTurn={"disabled"} key={i}></PlayerColumn>);
 		}
 
 		return (
-			<div>
+			<div id="game">
 				{cards}
 			</div>
 		);
