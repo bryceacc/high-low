@@ -104,6 +104,12 @@ var Game = React.createClass({displayName: "Game",
 		else {
 			return (
 				<div>
+					<p>1. Each player receives a card that they cannot see but is visible to every other player<br></br>
+					2. Each player gets a turn to first take a guess at what rank their card is relative to all players<br></br>
+					based on information gained from looking at the cards of other players as well as the guesses of other players<br></br>
+					3. After this round, each player guesses what the rank and value of their card is<br></br>
+					4. If everyone guesses correctly, the game is won<br></br>
+					5. If one person guesses incorrectly, the game is lost</p>
 					<form onSubmit={this.handleSubmit}>
 						Choose username:
 						<input type="text" id='nametag'></input>
