@@ -54,7 +54,7 @@ var Game = React.createClass({displayName: "Game",
 		if (flag) {
 			var cards = [];
 			//generate cards for all the players
-			for (var x = 0; x < 4; x++) {//TODO dynamic # players for some reason has doubles
+			for (var x = 0; x < players.length; x++) {//TODO dynamic # players for some reason has doubles
 				var temp = Math.floor(Math.random() * 13 + 1);
 				//dont allow multiples of same cards
 				while(cards.indexOf(temp) != -1)
