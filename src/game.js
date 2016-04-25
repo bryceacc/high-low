@@ -29,8 +29,14 @@ var Game = React.createClass({displayName: "Game",
 			console.log('server name response: ' + msg.message);
 			//server returns null if name is invalid
 			if (msg.message !== null) {
-				console.log('server said good name');
-				this.setState({username: msg.message});
+				if (msg.message.indexOf("bot") != -1) {
+					console.log('attaching bot');
+					
+				}
+				else {
+					console.log('server said good name');
+					this.setState({username: msg.message});
+				}
 			}
 			else {
 				console.log('server said bad name');

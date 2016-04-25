@@ -27,6 +27,11 @@ var Lobby = React.createClass({displayName: "Lobby",
 		this.props.sock.emit('play?', {message: null});
 	},
 
+	addBot: function() {
+		this.props.sock.emit('player name', {message: "bot"});
+
+	},
+
 	render: function() {
 		var names = [];
 		for (var i = 0; i < this.state.players.length; i++) {
@@ -51,7 +56,10 @@ var Lobby = React.createClass({displayName: "Lobby",
 			</div>
 
 			<div>
-				<button onClick={this.playPressed}>Play!</button>
+				<button id="playButton" onClick={this.playPressed}>Play!</button>
+			</div>
+			<div>
+				<button id="botButton" onClick={this.addBot}>Add Bot</button>
 			</div>
 		</div>;
 	}
