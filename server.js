@@ -96,7 +96,7 @@ io.on('connection', function(socket){
 		var obj = msg.list;
 		while (obj.turn.indexOf("bot") != -1) {
 			console.log('doing bot turn');
-			obj = dumbBot(obj);
+			obj = smartBot(obj);
 		}
 
 		io.emit('game update', {list: msg.list});
@@ -182,7 +182,7 @@ function dumbBot(state) {
 	return state;
 }
 
-
+//TODO fix second round to use people's value guess and results
 function smartBot(state) {
 	var largest = 0;
 	var rank = state.pInfo.length;
@@ -210,24 +210,39 @@ function smartBot(state) {
 		}
 	}
 	console.log("largest gap is " + largest);
+	console.log("location is " + location);
+	console.log("guessing rank is " + rank);
 	//if someone else has already guessed this rank, check if they COULD be valid 1,3,6,7
 	console.log("checking other players...");
 	for (var x = 0; x < state.pInfo.length; x++) {
-		if (state.pInfo[x].uName != state.turn && state.pInfo[x].rankGuess1 === rank) {
+		console.log(state.pInfo[x].uName + " " + state.pInfo[x].rankGuess1);
+		if (state.pInfo[x].uName != state.turn && state.pInfo[x].rankGuess1 == rank) {
 			console.log("found someone that guessed what I was going to");
 			//if they could be valid, guess the second largest gap
-			vals.sort(function(a,b) {return b-a});
+			var vals2 = vals.slice();
+			vals2.sort(function(a,b) {return b-a});
 			console.log("backward vals are: " + vals);
-			if (vals[state.pInfo[x].rankGuess1] === state.pInfo[x].val || vals[state.pInfo[x].rankGuess1 - 1] === state.pInfo[x].val){
-				
+			if (vals2[state.pInfo[x].rankGuess1] === state.pInfo[x].val || vals2[state.pInfo[x].rankGuess1 - 1] === state.pInfo[x].val){
+				console.log("they're probably right, changing my guess");
+				console.log("verify " + vals);
+				var savedLargest = largest;
+				largest = 0;
+				for (var x = 1; x < vals.length; x++) {
+					if (largest < vals[x] - (vals[x-1] + 1) && savedLargest != vals[x] - (vals[x-1] + 1)) {
+						largest = vals[x] - (vals[x-1] + 1);
+						location = vals[x-1];
+						rank = state.pInfo.length - (x - 1);
+					}
+				}
 			}
 			//else, disregard their guess
 			else
-				console.log("but they're wrong");
+				console.log("but they're probably wrong");
 		}
 	}
-	
-	console.log("guessing rank is " + rank);
+	console.log("gap is now " + largest);
+	console.log("location changed to " + location);
+	console.log("actually guessing rank is " + rank);
 	
 	//second round, use previous determined rank and guess between values
 	if (state.round === 2) {
