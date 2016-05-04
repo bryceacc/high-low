@@ -38,6 +38,11 @@ var Game = React.createClass({displayName: "Game",
 					this.setState({username: msg.message});
 				}
 			}
+			else if (msg.bot) {
+				console.log('cant name yourself a bot');
+				alert("Don't call yourself a bot :x");
+
+			}
 			else {
 				console.log('server said bad name');
 				//notify somehow
@@ -60,12 +65,12 @@ var Game = React.createClass({displayName: "Game",
 		if (flag) {
 			var cards = [];
 			//generate cards for all the players
-			for (var x = 0; x < players.length; x++) {//TODO dynamic # players for some reason has doubles
+			for (var x = 0; x < players.length; x++) {
 				var temp = Math.floor(Math.random() * 13 + 1);
 				//dont allow multiples of same cards
 				while(cards.indexOf(temp) != -1)
 					temp = Math.floor(Math.random() * 13 + 1);
-	
+				cards.push(temp);
 				info.push({uName: players[x], val: temp, suit: Math.floor(Math.random() * 4 + 1)});
 			}
 			obj.pInfo = info;
